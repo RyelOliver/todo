@@ -1,0 +1,175 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v41/flUhRq6tzZclQEJ-Vdg-IuiaDsNZ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Raleway Italic'), local('Raleway-Italic'), url(https://fonts.gstatic.com/s/raleway/v12/1Ptsg8zYS_SKggPNyCg4Q4Fv.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Raleway ExtraLight'), local('Raleway-ExtraLight'), url(https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwOIpWqhPBQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), local('Raleway-Regular'), url(https://fonts.gstatic.com/s/raleway/v12/1Ptug8zYS_SKggPNyCMISg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Raleway ExtraBold'), local('Raleway-ExtraBold'), url(https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwIouWqhPBQ.ttf) format('truetype');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}
+.material-icon {
+  display: inline-block;
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  margin: 0;
+  background: #FFF;
+  color: #333;
+}
+.app {
+  width: 512px;
+  margin: 0 auto;
+  background: #FFF;
+  color: #333;
+  font: 400 16px 'Raleway', sans-serif;
+}
+.app input,
+.app textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+  font: 400 16px 'Raleway', sans-serif;
+  resize: none;
+}
+.app .to-do-list {
+  width: 256px;
+  margin: 32px auto;
+  padding: 16px;
+  background: #F3F3F3;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  box-shadow: 0 1px 0 0 #dadada;
+}
+.app .to-do-list h3 {
+  margin: 0;
+}
+.app .to-do-list ul {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+.app .to-do-list .to-do {
+  margin: 8px 0;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  box-shadow: 0 1px 0 0 #dadada;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.app .to-do-list .to-do .view {
+  display: grid;
+  grid: auto / 1fr 14fr 1fr;
+  grid-gap: 8px;
+  align-items: center;
+}
+.app .to-do-list .to-do .view input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.app .to-do-list .to-do .view label {
+  cursor: pointer;
+}
+.app .to-do-list .to-do .view.done {
+  opacity: 0.5;
+}
+.app .to-do-list .to-do .view.done label {
+  text-decoration: line-through;
+}
+.app .to-do-list .to-do .remove {
+  text-align: right;
+}
+.app .to-do-list .to-do .remove:hover {
+  color: #F00;
+}
+.app .to-do-list .to-do .edit {
+  height: 0;
+  padding: 0 16px;
+  overflow: hidden;
+}
+.app .to-do-list .to-do .edit input {
+  padding: 4px 8px;
+  background: #e6e6e6;
+  border: none;
+  transition: all 0.5s ease;
+}
+.app .to-do-list .to-do.editing .view {
+  display: none;
+}
+.app .to-do-list .to-do.editing .edit {
+  height: auto;
+}
+.app .to-do-list .to-do.editing .edit input {
+  background: #ffffff;
+}
+.app .to-do-list .to-do.editing:hover {
+  background: #ffffff;
+}
+.app .to-do-list .to-do:hover {
+  background: #e6e6e6;
+}
+.app .to-do-list .add {
+  margin: 16px 0;
+  padding: 0;
+}
+.app .to-do-list .add textarea {
+  background: #dadada;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  box-shadow: 0 1px 0 0 #dadada;
+  opacity: 0.5;
+}
+.app .to-do-list.adding .add textarea {
+  background: #FFF;
+  opacity: 1;
+}

@@ -1,0 +1,176 @@
+
+@import url('https://fonts.googleapis.com/css?family=Material+Icons|Raleway:200,400,400i,800&subset=latin-ext');
+
+.material-icon {
+  display: inline-block;
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+@trueBlack: #000;
+@trueWhite: #FFF;
+@black: #333;
+@white: #F3F3F3;
+@red: #F00;
+
+@font: 400 16px 'Raleway', sans-serif;
+
+body {
+  margin: 0;
+  background: @trueWhite;
+  color: @black;
+}
+
+.app {
+  width: 512px;
+  margin: 0 auto;
+  background: @trueWhite;
+  color: @black;
+  font: @font;
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid darken(@white, 10%);
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    font: @font;
+    resize: none;
+  }
+
+  .to-do-list {
+    width: 256px;
+    margin: 32px auto;
+    padding: 16px;
+    background: @white;
+    border: 1px solid darken(@white, 10%);
+    border-radius: 4px;
+    box-shadow: 0 1px 0 0 darken(@white, 10%);
+    
+    h3 {
+      margin: 0;
+    }
+    
+    ul {
+      list-style: none;
+      margin: 16px 0;
+      padding: 0;
+    }
+  
+    .to-do {
+      margin: 8px 0;
+      padding: 16px;
+      background: lighten(@white, 5%);
+      border: 1px solid darken(@white, 10%);
+      border-radius: 4px;
+      box-shadow: 0 1px 0 0 darken(@white, 10%);
+      cursor: pointer;
+      transition: all .5s ease;
+
+      .view {
+        display: grid;
+        grid: auto / 1fr 14fr 1fr;
+        grid-gap: 8px;
+        align-items: center;
+
+        input[type="checkbox"] {
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+
+        label {
+          cursor: pointer;
+        }
+
+        &.done {
+          opacity: .5;
+
+          label {
+            text-decoration: line-through;
+          }
+        }
+      }
+
+      .remove {
+        text-align: right;
+
+        &:hover {
+          color: @red;
+        }
+      }
+
+      .edit {
+        height: 0;
+        padding: 0 16px;
+        overflow: hidden;
+
+        input {
+          padding: 4px 8px;
+          background: darken(@white, 5%);
+          border: none;
+          transition: all .5s ease;
+        }
+      }
+
+      &.editing {
+
+        .view {
+          display: none;
+        }
+
+        .edit {
+          height: auto;
+
+          input {
+            background: lighten(@white, 5%);
+          }
+        }
+
+        &:hover {
+          background: lighten(@white, 5%);
+        }
+      }
+
+      &:hover {
+        background: darken(@white, 5%);
+      }
+    }
+    
+    .add {
+      margin: 16px 0;
+      padding: 0;
+
+      textarea {
+        background: darken(@white, 10%);
+        border: 1px solid darken(@white, 10%);
+        border-radius: 4px;
+        box-shadow: 0 1px 0 0 darken(@white, 10%);
+        opacity: .5;
+      }
+    }
+
+    &.adding {
+      
+      .add {
+
+        textarea {
+          background: @trueWhite;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

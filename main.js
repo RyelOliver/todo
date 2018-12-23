@@ -43,7 +43,7 @@ const ToDoView = Backbone.View.extend({
     'click .view label': 'startEdit',
     'change .edit input': 'edit',
     'blur .edit input': 'endEdit',
-    'click .material-icon': 'remove'
+    'click .remove': 'remove'
   },
 
   toggle: function() {
@@ -92,7 +92,7 @@ const ToDoView = Backbone.View.extend({
       <div class="${done ? 'view done' : 'view'}">
         <input id="toDo${id}Done" type="checkbox" ${done ? 'checked' : ''}/>
         <label>${description}</label>
-        <i class="remove material-icon">close</i>
+        <i class="remove material-icon">clear</i>
       </div>
       <div class="edit">
         <input id="toDo${id}Description" type="text" value="${description}">
@@ -109,7 +109,9 @@ const ToDoListView = Backbone.View.extend({
   events: {
     'click .add textarea': 'startAdd',
     'keydown .add textarea': 'add',
-    'blur .add textarea': 'endAdd'
+    'blur .add textarea': 'endAdd',
+    'click .all': 'toggleList',
+    'click .remove-done': 'removeDone'
   },
   
   startAdd: function () {
@@ -155,11 +157,24 @@ const ToDoListView = Backbone.View.extend({
   changeDone: function() {
     this.renderSummary()
   },
+    
+  toggleList: function() {
+    const { done, total } = this.count
+    const minimumToggle = done / total < 0.5
+    this.collection.map((toDo) => {
+      toDo.set('done', minimumToggle, { validate: true })
+    })
+  },
+    
+  removeDone: function() {
+    this.collection.reset(this.collection.where({ done: false }))
+  },
 
   initialize: function () {
     this.listenTo(this.collection, 'add', this.added)
     this.listenTo(this.collection, 'change:done', this.changeDone)
     this.listenTo(this.collection, 'remove', this.removed)
+    this.listenTo(this.collection, 'reset', this.removed)
   },
 
   renderItem: function (toDo) {
@@ -182,11 +197,19 @@ const ToDoListView = Backbone.View.extend({
     this.summary.html(`
       ${done} / ${total} items done
     `)
+    this.count = {
+      done,
+      total
+    }
   },
 
   render: function () {    
     this.$el.html(`
       <h3>List</h3>
+      <div class="controller">
+        <i class="all material-icon">playlist_add_check</i>
+        <i class="remove-done material-icon">delete_sweep</i>
+      </div>
       <ul>
       </ul>
       <div class="add">

@@ -21,7 +21,11 @@
 @trueWhite: #FFF;
 @black: #333;
 @white: #F3F3F3;
-@red: #F00;
+@grey: #CCC;
+@blue: #3C9;
+@green: #9C3;
+@orange: #F90;
+@red: #F36;
 
 @font: 400 16px 'Raleway', sans-serif;
 
@@ -62,6 +66,25 @@ body {
     h3 {
       margin: 0;
     }
+
+    .controller {
+      text-align: right;
+
+      i {
+        padding: 8px;
+        background: darken(@white, 5%);
+        border: 1px solid darken(@white, 10%);
+        border-radius: 4px;
+        box-shadow: 0 1px 0 0 darken(@white, 10%);
+        cursor: pointer;
+        transition: all 0.5s ease;
+
+        &:hover {
+          background: lighten(@white, 10%);
+          box-shadow: none;
+        }
+      }
+    }
     
     ul {
       list-style: none;
@@ -77,7 +100,7 @@ body {
       border-radius: 4px;
       box-shadow: 0 1px 0 0 darken(@white, 10%);
       cursor: pointer;
-      transition: all .5s ease;
+      transition: all 0.5s ease;
 
       .view {
         display: grid;
@@ -96,7 +119,7 @@ body {
         }
 
         &.done {
-          opacity: .5;
+          opacity: 0.5;
 
           label {
             text-decoration: line-through;
@@ -121,7 +144,7 @@ body {
           padding: 4px 8px;
           background: darken(@white, 5%);
           border: none;
-          transition: all .5s ease;
+          transition: all 0.5s ease;
         }
       }
 
@@ -146,6 +169,7 @@ body {
 
       &:hover {
         background: darken(@white, 5%);
+        box-shadow: none;
       }
     }
     
@@ -154,11 +178,11 @@ body {
       padding: 0;
 
       textarea {
-        background: darken(@white, 10%);
+        background: darken(@white, 5%);
         border: 1px solid darken(@white, 10%);
         border-radius: 4px;
         box-shadow: 0 1px 0 0 darken(@white, 10%);
-        opacity: .5;
+        opacity: 0.5;
       }
     }
 

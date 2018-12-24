@@ -34,6 +34,27 @@ const ToDoList = Backbone.Collection.extend({
   }
 })
 
+const IconView = Backbone.View.extend({
+  tagName: 'i',
+  className: 'material-icon',
+
+  initialize: function (props) {
+    this.props = props
+  },
+
+  render: function () {
+    const { classes, code, toolTip } = this.props
+    this.$el.html(`
+      ${code}
+      <div class="tool-tip">
+        <span>${toolTip ? toolTip : 'Add a tip for the icon'}</span>
+      </div>
+    `)
+    this.$el.addClass(classes)
+    return this
+  }
+})
+
 const ToDoView = Backbone.View.extend({
   tagName: 'li',
   className: 'to-do',
@@ -92,12 +113,19 @@ const ToDoView = Backbone.View.extend({
       <div class="${done ? 'view done' : 'view'}">
         <input id="toDo${id}Done" type="checkbox" ${done ? 'checked' : ''}/>
         <label>${description}</label>
-        <i class="remove material-icon">clear</i>
       </div>
       <div class="edit">
         <input id="toDo${id}Description" type="text" value="${description}">
       </div>
     `)
+
+    const removeIcon = new IconView({
+      classes: 'remove',
+      code: 'clear',
+      toolTip: 'Delete the item'
+    })
+    this.$('.view').append(removeIcon.render().el)
+
     return this
   }
 })
@@ -206,10 +234,7 @@ const ToDoListView = Backbone.View.extend({
   render: function () {    
     this.$el.html(`
       <h3>List</h3>
-      <div class="controller">
-        <i class="all material-icon">playlist_add_check</i>
-        <i class="remove-done material-icon">delete_sweep</i>
-      </div>
+      <div class="controller"></div>
       <ul>
       </ul>
       <div class="add">
@@ -218,8 +243,22 @@ const ToDoListView = Backbone.View.extend({
       <span></span>
     `)
 
+    this.controller = this.$('.controller')
     this.list = this.$('ul')
     this.summary = this.$('span')
+    
+    const allIcon = new IconView({
+      classes: 'all',
+      code: 'playlist_add_check',
+      toolTip: 'Check or uncheck all the items'
+    })
+    this.controller.append(allIcon.render().el)
+    const removeIcon = new IconView({
+      classes: 'remove-done',
+      code: 'delete_sweep',
+      toolTip: 'Delete all the done items'
+    })
+    this.controller.append(removeIcon.render().el)
 
     this.renderList()
     this.renderSummary()

@@ -41,7 +41,38 @@
   word-wrap: normal;
   direction: ltr;
 }
-.material-icon {
+body {
+  margin: 0;
+  background: #FFF;
+  color: #333;
+}
+.app {
+  width: 512px;
+  margin: 0 auto;
+  background: #FFF;
+  color: #333;
+  font: 400 16px 'Raleway', sans-serif;
+}
+.app a {
+  color: #3C9;
+  text-decoration: none;
+}
+.app a:hover {
+  color: #9C3;
+}
+.app input,
+.app textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+  font: 400 16px 'Raleway', sans-serif;
+  resize: none;
+}
+.app .material-icon {
+  position: relative;
   display: inline-block;
   font-family: 'Material Icons';
   font-weight: normal;
@@ -56,28 +87,34 @@
   font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
-body {
-  margin: 0;
-  background: #FFF;
-  color: #333;
-}
-.app {
-  width: 512px;
-  margin: 0 auto;
-  background: #FFF;
-  color: #333;
-  font: 400 16px 'Raleway', sans-serif;
-}
-.app input,
-.app textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #dadada;
+.app i .tool-tip {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  left: 32px;
+  top: 50%;
+  transform: translate(0, -50%);
+  padding: 8px 16px;
+  background: #333;
   border-radius: 4px;
-  box-sizing: border-box;
-  outline: none;
+  color: #F3F3F3;
   font: 400 16px 'Raleway', sans-serif;
-  resize: none;
+}
+.app i .tool-tip::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  width: 0;
+  height: 0;
+  border-right: 8px solid #333;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.app i:hover .tool-tip {
+  display: block;
 }
 .app .to-do-list {
   width: 256px;
@@ -95,6 +132,7 @@ body {
   text-align: right;
 }
 .app .to-do-list .controller i {
+  margin: 0 0 0 8px;
   padding: 8px;
   background: #e6e6e6;
   border: 1px solid #dadada;
@@ -106,6 +144,15 @@ body {
 .app .to-do-list .controller i:hover {
   background: #ffffff;
   box-shadow: none;
+}
+.app .to-do-list .controller .tool-tip {
+  left: 48px;
+}
+.app .to-do-list .controller .all:hover {
+  color: #9C3;
+}
+.app .to-do-list .controller .remove-done:hover {
+  color: #F36;
 }
 .app .to-do-list ul {
   list-style: none;
@@ -154,7 +201,7 @@ body {
   overflow: hidden;
 }
 .app .to-do-list .to-do .edit input {
-  padding: 4px 8px;
+  padding: 2px 8px;
   background: #e6e6e6;
   border: none;
   transition: all 0.5s ease;
@@ -189,4 +236,7 @@ body {
 .app .to-do-list.adding .add textarea {
   background: #FFF;
   opacity: 1;
+}
+.app footer {
+  text-align: center;
 }

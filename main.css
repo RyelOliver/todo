@@ -46,6 +46,10 @@ body {
   background: #FFF;
   color: #333;
 }
+::selection {
+  background: #3C9;
+  color: #F3F3F3;
+}
 .app {
   width: 512px;
   margin: 0 auto;
@@ -159,7 +163,8 @@ body {
   margin: 16px 0;
   padding: 0;
 }
-.app .to-do-list .to-do {
+.app .to-do-list .to-do,
+.app .to-do-list .placeholder {
   margin: 8px 0;
   padding: 16px;
   background: #ffffff;
@@ -169,58 +174,76 @@ body {
   cursor: pointer;
   transition: all 0.5s ease;
 }
-.app .to-do-list .to-do .view {
+.app .to-do-list .to-do .view,
+.app .to-do-list .placeholder .view {
   display: grid;
   grid: auto / 1fr 14fr 1fr;
   grid-gap: 8px;
   align-items: center;
 }
-.app .to-do-list .to-do .view input[type="checkbox"] {
+.app .to-do-list .to-do .view input[type="checkbox"],
+.app .to-do-list .placeholder .view input[type="checkbox"] {
   width: 16px;
   height: 16px;
   cursor: pointer;
 }
-.app .to-do-list .to-do .view label {
+.app .to-do-list .to-do .view label,
+.app .to-do-list .placeholder .view label {
   cursor: pointer;
 }
-.app .to-do-list .to-do .view.done {
+.app .to-do-list .to-do .view.done,
+.app .to-do-list .placeholder .view.done {
   opacity: 0.5;
 }
-.app .to-do-list .to-do .view.done label {
+.app .to-do-list .to-do .view.done label,
+.app .to-do-list .placeholder .view.done label {
   text-decoration: line-through;
 }
-.app .to-do-list .to-do .remove {
+.app .to-do-list .to-do .remove,
+.app .to-do-list .placeholder .remove {
   text-align: right;
 }
-.app .to-do-list .to-do .remove:hover {
+.app .to-do-list .to-do .remove:hover,
+.app .to-do-list .placeholder .remove:hover {
   color: #F36;
 }
-.app .to-do-list .to-do .edit {
+.app .to-do-list .to-do .edit,
+.app .to-do-list .placeholder .edit {
   height: 0;
   padding: 0 16px;
   overflow: hidden;
 }
-.app .to-do-list .to-do .edit input {
+.app .to-do-list .to-do .edit input,
+.app .to-do-list .placeholder .edit input {
   padding: 2px 8px;
   background: #e6e6e6;
   border: none;
   transition: all 0.5s ease;
 }
-.app .to-do-list .to-do.editing .view {
+.app .to-do-list .to-do.editing .view,
+.app .to-do-list .placeholder.editing .view {
   display: none;
 }
-.app .to-do-list .to-do.editing .edit {
+.app .to-do-list .to-do.editing .edit,
+.app .to-do-list .placeholder.editing .edit {
   height: auto;
 }
-.app .to-do-list .to-do.editing .edit input {
+.app .to-do-list .to-do.editing .edit input,
+.app .to-do-list .placeholder.editing .edit input {
   background: #ffffff;
 }
-.app .to-do-list .to-do.editing:hover {
+.app .to-do-list .to-do.editing:hover,
+.app .to-do-list .placeholder.editing:hover {
   background: #ffffff;
 }
-.app .to-do-list .to-do:hover {
+.app .to-do-list .to-do:hover,
+.app .to-do-list .placeholder:hover {
   background: #e6e6e6;
   box-shadow: none;
+}
+.app .to-do-list .placeholder {
+  background: #e6e6e6;
+  opacity: 0.5;
 }
 .app .to-do-list .add {
   margin: 16px 0;
@@ -232,6 +255,7 @@ body {
   border-radius: 4px;
   box-shadow: 0 1px 0 0 #dadada;
   opacity: 0.5;
+  transition: all 0.5s ease;
 }
 .app .to-do-list.adding .add textarea {
   background: #FFF;

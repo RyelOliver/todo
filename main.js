@@ -29,6 +29,8 @@ const ToDo = Backbone.Model.extend({
   }
 })
 
+// [TODO] Sync with local storage
+// Use an existing library? Nah ...
 const ToDoList = Backbone.Collection.extend({
   model: ToDo,
   comparator: 'order',
@@ -90,11 +92,13 @@ const ToDoView = Backbone.View.extend({
   },
   
   events: {
-    'click .view input': 'toggle',
-    'click .view label': 'startEdit',
-    'change .edit input': 'edit',
-    'blur .edit input': 'endEdit',
-    'click .remove': 'destroy'
+    'click .view input': 'onClickDone',
+    'click .view label': 'onClickEdit',
+    'change .edit input': 'onChange',
+    'blur .edit input': 'onBlurEdit',
+    // [TODO] Need to think about the scope of the blur event
+    // Currently it's possible to edit one item and the click to edit another without ending the initial edit
+    'click .remove': 'onClickRemove'
   },
 
   initialize: function () {
@@ -102,13 +106,13 @@ const ToDoView = Backbone.View.extend({
     this.listenTo(this.model, 'destroy', this.removed)
   },
 
-  toggle: function() {
+  onClickDone: function() {
     this.model.toggle()
   },
 
   editing: false,
   
-  startEdit: function(event) {
+  onClickEdit: function(event) {
     if (this.editing) {
       return
     } else {
@@ -118,11 +122,11 @@ const ToDoView = Backbone.View.extend({
     }
   },
 
-  edit: function(event) {
+  onChange: function(event) {
     this.model.editDescription(event.target.value)
   },
   
-  endEdit: function(event) {
+  onBlurEdit: function(event) {
     if (!this.editing) {
       return
     } else {
@@ -131,7 +135,7 @@ const ToDoView = Backbone.View.extend({
     }
   },
 
-  destroy: function() {
+  onClickRemove: function() {
     this.model.trigger('destroy', this.model)
   },
 
@@ -272,6 +276,12 @@ const ToDoListView = Backbone.View.extend({
   onDragOver: function (event) {
 		event.preventDefault()
     event.originalEvent.dataTransfer.dropEffect = 'move'
+    
+    // [TODO] Are we dragging over the top half or bottom half?
+    // event.clientY gets us the y position in the DOM
+    // el.getBoundingClientRect().y gets us the y position of the element in the DOM
+    // el.getBoundingClientRect().height gets us the height of the element
+    // clientY - el.y / el.height > 0.5 ? placeholder should be after : placeholder should be before
 	},
 
 	onDragEnd: function (event) {

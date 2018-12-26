@@ -190,16 +190,6 @@ body {
         label {
           cursor: pointer;
         }
-
-        &.done {
-          opacity: 0.5;
-          // [TODO] Need to consider that opacity will effect child elements such as tips
-          // Use RGBA instead?
-
-          label {
-            text-decoration: line-through;
-          }
-        }
       }
 
       .remove {
@@ -220,6 +210,17 @@ body {
           background: darken(@white, 5%);
           border: none;
           transition: all 0.5s ease;
+        }
+      }
+
+      &.done {
+        background: fadeout(lighten(@white, 5%), 50%);
+
+        .view {
+
+          label {
+            text-decoration: line-through;
+          }
         }
       }
 
@@ -250,7 +251,6 @@ body {
 
     .placeholder {
       background: darken(@white, 5%);
-      opacity: 0.5;
     }
     
     .add {
@@ -262,7 +262,6 @@ body {
         border: 1px solid darken(@white, 10%);
         border-radius: 4px;
         box-shadow: 0 1px 0 0 darken(@white, 10%);
-        opacity: 0.5;
         transition: all 0.5s ease;
       }
     }
@@ -273,7 +272,6 @@ body {
 
         textarea {
           background: @trueWhite;
-          opacity: 1;
         }
       }
     }

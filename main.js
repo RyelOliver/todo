@@ -126,7 +126,7 @@ const ToDoView = Backbone.View.extend({
     this.model.editDescription(event.target.value)
   },
   
-  onBlurEdit: function(event) {
+  onBlurEdit: function(event) {    
     if (!this.editing) {
       return
     } else {
@@ -149,7 +149,7 @@ const ToDoView = Backbone.View.extend({
     const done = this.model.get('done')
 
     this.$el.html(`
-      <div class="${done ? 'view done' : 'view'}">
+      <div class="view">
         <input id="toDo${id}Done" type="checkbox" ${done ? 'checked' : ''}/>
         <label>${description}</label>
       </div>
@@ -157,6 +157,12 @@ const ToDoView = Backbone.View.extend({
         <input id="toDo${id}Description" type="text" value="${description}">
       </div>
     `)
+
+    if (done) {
+      this.$el.addClass('done')
+    } else {    
+      this.$el.removeClass('done')
+    }
 
     const removeIcon = new IconView({
       classes: 'remove',

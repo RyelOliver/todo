@@ -23,7 +23,7 @@ const ToDoModel = Backbone.Model.extend({
       throw Error('Description is required.')
     }
     if (done === undefined) {
-      throw Error('Done is required.')
+      throw Error('Done boolean is required.')
     }
     if (order === undefined) {
       throw Error('Order is required.')

@@ -9,7 +9,7 @@ const IconView = Backbone.View.extend({
   },
 
   render: function () {
-    const { classes, code, toolTip } = this.props
+    const { classes, code, toolTip } = this.props || {}
     this.$el.html(`
       ${code}
       <div class="tool-tip">

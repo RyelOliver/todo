@@ -13987,51 +13987,6 @@ return jQuery;
 },{}],4:[function(require,module,exports){
 const Backbone = require('backbone')
 
-const ToDo = Backbone.Model.extend({
-  defaults: {
-    'done': false
-  },
-
-  toggle: function () {
-    this.set('done', !this.get('done'))
-  },
-
-  editDescription: function (description) {
-    this.set('description', description)
-  },
-
-  validate: function (attributes) {
-    const { id, description, done, order } = attributes
-
-    if (id === undefined) {
-      throw Error('ID is required.')
-    }
-    if (description === undefined || description.trim() === '') {
-      throw Error('Description is required.')
-    }
-    if (done === undefined) {
-      throw Error('Done is required.')
-    }
-    if (order === undefined) {
-      throw Error('Order is required.')
-    }
-  }
-})
-
-// [TODO] Sync with local storage
-// Use an existing library? Nah ...
-const ToDoList = Backbone.Collection.extend({
-  model: ToDo,
-  comparator: 'order',
-
-  nextId: function () {
-    return this.length ? this.reduce((maxId, toDo) => {
-      const id = toDo.get('id')
-      return id > maxId ? id : maxId
-    }, 1) + 1 : 1
-  }
-})
-
 const IconView = Backbone.View.extend({
   tagName: 'i',
   className: 'material-icon',
@@ -14053,117 +14008,36 @@ const IconView = Backbone.View.extend({
   }
 })
 
-const ToDoPlaceholderView = Backbone.View.extend({
-  tagName: 'li',
-  className: 'placeholder',
+module.exports = IconView
+},{"backbone":1}],5:[function(require,module,exports){
+const Backbone = require('backbone')
 
-  initialize: function (props) {
-    this.props = props
-  },
+const ToDoModel = require('./ToDoModel')
 
-  render: function () {
-    const { description, done } = this.props
-    this.$el.html(`
-      <div class="${done ? 'view done' : 'view'}">
-        <input type="checkbox" ${done ? 'checked' : ''}/>
-        <label>${description}</label>
-      </div>
-    `)
-    return this
+// [TODO] Sync with local storage
+// Use an existing library? Nah ...
+const ToDoCollection = Backbone.Collection.extend({
+  model: ToDoModel,
+  comparator: 'order',
+
+  nextId: function () {
+    return this.length ? this.reduce((maxId, toDo) => {
+      const id = toDo.get('id')
+      return id > maxId ? id : maxId
+    }, 1) + 1 : 1
   }
 })
 
-const ToDoView = Backbone.View.extend({
-  tagName: 'li',
-  className: 'to-do',
-  attributes: {
-    draggable: true
-  },
-  
-  events: {
-    'click .view input': 'onClickDone',
-    'click .view label': 'onClickEdit',
-    'change .edit input': 'onChangeEdit',
-    'blur .edit input': 'onBlurEdit',
-    'click .remove': 'onClickRemove'
-  },
+module.exports = ToDoCollection
+},{"./ToDoModel":7,"backbone":1}],6:[function(require,module,exports){
+const Backbone = require('backbone')
 
-  initialize: function () {
-    this.listenTo(this.model, 'change', this.render)
-    this.listenTo(this.model, 'destroy', this.removed)
-  },
+const ToDoModel = require('./ToDoModel')
+const IconView = require('./IconView')
+const ToDoPlaceholderView = require('./ToDoPlaceholderView')
+const ToDoView = require('./ToDoView')
 
-  onClickDone: function() {
-    this.model.toggle()
-  },
-
-  editing: false,
-  
-  onClickEdit: function(event) {
-    if (this.editing) {
-      return
-    } else {
-      this.editing = true
-      this.$el.addClass('editing')
-      this.$('.edit input').focus()
-    }
-  },
-
-  onChangeEdit: function(event) {
-    this.model.editDescription(event.target.value)
-    this.onBlurEdit(event)
-  },
-  
-  onBlurEdit: function(event) {
-    if (!this.editing) {
-      return
-    } else {
-      this.editing = false
-      this.$el.removeClass('editing')
-    }
-  },
-
-  onClickRemove: function() {
-    this.model.trigger('destroy', this.model)
-  },
-
-  removed: function() {
-    this.remove()
-  },
-
-  render: function () {
-    const id = this.model.get('id')
-    const description = this.model.escape('description')
-    const done = this.model.get('done')
-
-    this.$el.html(`
-      <div class="view">
-        <input id="toDo${id}Done" type="checkbox" ${done ? 'checked' : ''}/>
-        <label>${description}</label>
-      </div>
-      <div class="edit">
-        <input id="toDo${id}Description" type="text" value="${description}">
-      </div>
-    `)
-
-    if (done) {
-      this.$el.addClass('done')
-    } else {    
-      this.$el.removeClass('done')
-    }
-
-    const removeIcon = new IconView({
-      classes: 'remove',
-      code: 'clear',
-      toolTip: 'Delete the item'
-    })
-    this.$('.view').append(removeIcon.render().el)
-
-    return this
-  }
-})
-
-const ToDoListView = Backbone.View.extend({
+const ToDoCollectionView = Backbone.View.extend({
   tagName: 'div',
   className: 'to-do-list',
   
@@ -14211,7 +14085,7 @@ const ToDoListView = Backbone.View.extend({
       return
     }
 
-    const toDo = new ToDo({
+    const toDo = new ToDoModel({
       id: this.collection.nextId(),
       description: event.target.value,
       order: this.collection.length ? this.collection.last().get('order') + 1 : 1
@@ -14405,33 +14279,196 @@ const ToDoListView = Backbone.View.extend({
   }
 })
 
-const toDoList = new ToDoList()
-const toDoListView = new ToDoListView({
+module.exports = ToDoCollectionView
+},{"./IconView":4,"./ToDoModel":7,"./ToDoPlaceholderView":8,"./ToDoView":9,"backbone":1}],7:[function(require,module,exports){
+const Backbone = require('backbone')
+
+const ToDoModel = Backbone.Model.extend({
+  defaults: {
+    'done': false
+  },
+
+  toggle: function () {
+    this.set('done', !this.get('done'))
+  },
+
+  editDescription: function (description) {
+    this.set('description', description)
+  },
+
+  validate: function (attributes) {
+    const { id, description, done, order } = attributes
+
+    if (id === undefined) {
+      throw Error('ID is required.')
+    }
+    if (description === undefined || description.trim() === '') {
+      throw Error('Description is required.')
+    }
+    if (done === undefined) {
+      throw Error('Done is required.')
+    }
+    if (order === undefined) {
+      throw Error('Order is required.')
+    }
+  }
+})
+
+module.exports = ToDoModel
+},{"backbone":1}],8:[function(require,module,exports){
+const Backbone = require('backbone')
+
+const ToDoPlaceholderView = Backbone.View.extend({
+  tagName: 'li',
+  className: 'placeholder',
+
+  initialize: function (props) {
+    this.props = props
+  },
+
+  render: function () {
+    const { description, done } = this.props
+    this.$el.html(`
+      <div class="${done ? 'view done' : 'view'}">
+        <input type="checkbox" ${done ? 'checked' : ''}/>
+        <label>${description}</label>
+      </div>
+    `)
+    return this
+  }
+})
+
+module.exports = ToDoPlaceholderView
+},{"backbone":1}],9:[function(require,module,exports){
+const Backbone = require('backbone')
+
+const IconView = require('./IconView')
+
+const ToDoView = Backbone.View.extend({
+  tagName: 'li',
+  className: 'to-do',
+  attributes: {
+    draggable: true
+  },
+  
+  events: {
+    'click .view input': 'onClickDone',
+    'click .view label': 'onClickEdit',
+    'change .edit input': 'onChangeEdit',
+    'blur .edit input': 'onBlurEdit',
+    'click .remove': 'onClickRemove'
+  },
+
+  initialize: function () {
+    this.listenTo(this.model, 'change', this.render)
+    this.listenTo(this.model, 'destroy', this.removed)
+  },
+
+  onClickDone: function() {
+    this.model.toggle()
+  },
+
+  editing: false,
+  
+  onClickEdit: function(event) {
+    if (this.editing) {
+      return
+    } else {
+      this.editing = true
+      this.$el.addClass('editing')
+      this.$('.edit input').focus()
+    }
+  },
+
+  onChangeEdit: function(event) {
+    this.model.editDescription(event.target.value)
+    this.onBlurEdit(event)
+  },
+  
+  onBlurEdit: function(event) {
+    if (!this.editing) {
+      return
+    } else {
+      this.editing = false
+      this.$el.removeClass('editing')
+    }
+  },
+
+  onClickRemove: function() {
+    this.model.trigger('destroy', this.model)
+  },
+
+  removed: function() {
+    this.remove()
+  },
+
+  render: function () {
+    const id = this.model.get('id')
+    const description = this.model.escape('description')
+    const done = this.model.get('done')
+
+    this.$el.html(`
+      <div class="view">
+        <input id="toDo${id}Done" type="checkbox" ${done ? 'checked' : ''}/>
+        <label>${description}</label>
+      </div>
+      <div class="edit">
+        <input id="toDo${id}Description" type="text" value="${description}">
+      </div>
+    `)
+
+    if (done) {
+      this.$el.addClass('done')
+    } else {    
+      this.$el.removeClass('done')
+    }
+
+    const removeIcon = new IconView({
+      classes: 'remove',
+      code: 'clear',
+      toolTip: 'Delete the item'
+    })
+    this.$('.view').append(removeIcon.render().el)
+
+    return this
+  }
+})
+
+module.exports = ToDoView
+},{"./IconView":4,"backbone":1}],10:[function(require,module,exports){
+const Backbone = require('backbone')
+
+const ToDoModel = require('./ToDoModel')
+const ToDoCollection = require('./ToDoCollection')
+const ToDoCollectionView = require('./ToDoCollectionView')
+
+const toDoList = new ToDoCollection()
+const toDoListView = new ToDoCollectionView({
   collection: toDoList
 })
 
 document.querySelector('#toDoList').append(toDoListView.render().el)
 
 toDoList.reset([
-  new ToDo({
+  new ToDoModel({
     id: 1,
     description: 'One, two',
     order: 1
   }),
-  new ToDo({
+  new ToDoModel({
     id: 2,
     description: 'Skip a few',
     order: 2
   }),
-  new ToDo({
+  new ToDoModel({
     id: 3,
     description: 'Banana',
     order: 4
   }),
-  new ToDo({
+  new ToDoModel({
     id: 4,
     description: 'Ninety nine',
     order: 3
   })
 ])
-},{"backbone":1}]},{},[4]);
+},{"./ToDoCollection":5,"./ToDoCollectionView":6,"./ToDoModel":7,"backbone":1}]},{},[10]);

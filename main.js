@@ -94,10 +94,8 @@ const ToDoView = Backbone.View.extend({
   events: {
     'click .view input': 'onClickDone',
     'click .view label': 'onClickEdit',
-    'change .edit input': 'onChange',
+    'change .edit input': 'onChangeEdit',
     'blur .edit input': 'onBlurEdit',
-    // [TODO] Need to think about the scope of the blur event
-    // Currently it's possible to edit one item and the click to edit another without ending the initial edit
     'click .remove': 'onClickRemove'
   },
 
@@ -122,11 +120,12 @@ const ToDoView = Backbone.View.extend({
     }
   },
 
-  onChange: function(event) {
+  onChangeEdit: function(event) {
     this.model.editDescription(event.target.value)
+    this.onBlurEdit(event)
   },
   
-  onBlurEdit: function(event) {    
+  onBlurEdit: function(event) {
     if (!this.editing) {
       return
     } else {

@@ -1,0 +1,24 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "build:css": "lessc css/main.less main.css",
+    "build:js": "browserify scripts/main.js -o main.js",
+    "prebuild": "echo Compiling CSS and JS",
+    "build": "npm run build:css && npm run build:js",
+    "postbuild": "echo CSS and JS compiled"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "backbone": "^1.3.3",
+    "browserify": "^16.2.3",
+    "jest": "^23.6.0",
+    "jquery": "^3.3.1",
+    "less": "^3.9.0"
+  }
+}

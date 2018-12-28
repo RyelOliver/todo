@@ -41,6 +41,13 @@ describe('To do items', () => {
     expect(toDoView.$el.hasClass('editing')).toBeFalsy()
   })
 
+  describe('When the input is focused', () => {
+    it('Should have the editing class', () => {
+      toDoView.$('.edit input').focusin() // jQuery implements the focus event as focusin
+      expect(toDoView.$el.hasClass('editing')).toBeTruthy()
+    })
+  })
+
   describe('When the label is clicked', () => {
     beforeEach(() => {
       toDoView.$('.view label').click()

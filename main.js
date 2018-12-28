@@ -13996,7 +13996,7 @@ const IconView = Backbone.View.extend({
   },
 
   render: function () {
-    const { classes, code, toolTip } = this.props
+    const { classes, code, toolTip } = this.props || {}
     this.$el.html(`
       ${code}
       <div class="tool-tip">
@@ -14306,7 +14306,7 @@ const ToDoModel = Backbone.Model.extend({
       throw Error('Description is required.')
     }
     if (done === undefined) {
-      throw Error('Done is required.')
+      throw Error('Done boolean is required.')
     }
     if (order === undefined) {
       throw Error('Order is required.')
@@ -14354,9 +14354,24 @@ const ToDoView = Backbone.View.extend({
   events: {
     'click .view input': 'onClickDone',
     'click .view label': 'onClickEdit',
+    'focus .edit input': 'onFocusEdit',
     'change .edit input': 'onChangeEdit',
     'blur .edit input': 'onBlurEdit',
     'click .remove': 'onClickRemove'
+  },
+
+  editing: false,
+  setEditing: function (editing) {
+    if (this.editing === editing) {
+      return
+    } else {
+      this.editing = !this.editing
+      if (editing) {
+        this.$el.addClass('editing')
+      } else {
+        this.$el.removeClass('editing')
+      }
+    }
   },
 
   initialize: function () {
@@ -14368,30 +14383,22 @@ const ToDoView = Backbone.View.extend({
     this.model.toggle()
   },
 
-  editing: false,
-  
   onClickEdit: function(event) {
-    if (this.editing) {
-      return
-    } else {
-      this.editing = true
-      this.$el.addClass('editing')
-      this.$('.edit input').focus()
-    }
+    this.setEditing(true)
+    this.$('.edit input').focus()
+  },
+
+  onFocusEdit: function(event) {
+    this.setEditing(true)
   },
 
   onChangeEdit: function(event) {
     this.model.editDescription(event.target.value)
-    this.onBlurEdit(event)
+    this.setEditing(false)
   },
   
   onBlurEdit: function(event) {
-    if (!this.editing) {
-      return
-    } else {
-      this.editing = false
-      this.$el.removeClass('editing')
-    }
+    this.setEditing(false)
   },
 
   onClickRemove: function() {

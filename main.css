@@ -208,7 +208,7 @@ body {
 .app .to-do-list .to-do .edit input,
 .app .to-do-list .placeholder .edit input {
   padding: 2px 8px;
-  background: #e6e6e6;
+  background: none;
   border: none;
   transition: all 0.5s ease;
 }
@@ -227,10 +227,6 @@ body {
 .app .to-do-list .to-do.editing .edit,
 .app .to-do-list .placeholder.editing .edit {
   height: auto;
-}
-.app .to-do-list .to-do.editing .edit input,
-.app .to-do-list .placeholder.editing .edit input {
-  background: #ffffff;
 }
 .app .to-do-list .to-do.editing:hover,
 .app .to-do-list .placeholder.editing:hover {

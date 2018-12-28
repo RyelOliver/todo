@@ -14332,11 +14332,18 @@ const ToDoPlaceholderView = Backbone.View.extend({
   render: function () {
     const { description, done } = this.props
     this.$el.html(`
-      <div class="${done ? 'view done' : 'view'}">
+      <div class="view">
         <input type="checkbox" ${done ? 'checked' : ''}/>
         <label>${description}</label>
       </div>
     `)
+    
+    if (done) {
+      this.$el.addClass('done')
+    } else {    
+      this.$el.removeClass('done')
+    }
+
     return this
   }
 })

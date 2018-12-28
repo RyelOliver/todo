@@ -5,11 +5,17 @@
   "main": "main.js",
   "scripts": {
     "test": "jest",
-    "build:css": "lessc css/main.less main.css",
-    "build:js": "browserify scripts/main.js -o main.js",
-    "prebuild": "echo Compiling CSS and JS",
+    "test:coverage": "jest --coverage --collectCoverageFrom=scripts/**/*.js",
+    "test:watch": "jest --watch",
     "build": "npm run build:css && npm run build:js",
-    "postbuild": "echo CSS and JS compiled"
+    "prebuild": "echo Compiling all files",
+    "postbuild": "echo All files compiled",
+    "build:css": "lessc css/main.less main.css",
+    "prebuild:css": "echo - Compiling CSS",
+    "postbuild:css": "echo - CSS compiled",
+    "build:js": "browserify scripts/main.js -o main.js",
+    "prebuild:js": "echo - Compiling JS",
+    "postbuild:js": "echo - JS compiled"
   },
   "author": "",
   "license": "ISC",

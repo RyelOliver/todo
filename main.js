@@ -14362,9 +14362,7 @@ const ToDoView = Backbone.View.extend({
 
   editing: false,
   setEditing: function (editing) {
-    if (this.editing === editing) {
-      return
-    } else {
+    if (this.editing !== editing) {
       this.editing = !this.editing
       if (editing) {
         this.$el.addClass('editing')

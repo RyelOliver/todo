@@ -14051,7 +14051,10 @@ const ToDoCollectionView = Backbone.View.extend({
     'dragenter .to-do': 'onDragEnter',
     'dragover li': 'onDragOver',
     'dragend .to-do': 'onDragEnd',
-    'drop li': 'onDrop'
+    'drop li': 'onDrop',
+    'drop .add textarea': function () {
+      return false
+    }
   },
   
   initialize: function () {

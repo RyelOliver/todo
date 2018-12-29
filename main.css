@@ -50,6 +50,18 @@ body {
   background: #3C9;
   color: #F3F3F3;
 }
+@keyframes tool-tip {
+  0%,
+  50% {
+    opacity: 0;
+    transform-origin: left;
+    transform: translate(0, -50%) rotateY(90deg) scale(0.1, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
 .app {
   width: 512px;
   margin: 0 auto;
@@ -119,6 +131,7 @@ body {
 }
 .app i:hover .tool-tip {
   display: block;
+  animation: tool-tip 1s;
 }
 .app .to-do-list {
   width: 256px;

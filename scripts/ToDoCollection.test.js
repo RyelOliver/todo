@@ -1,7 +1,7 @@
 const ToDoModel = require('./ToDoModel')
 const ToDoCollection = require('./ToDoCollection')
 
-describe('To do items', () => {
+describe('To do items list', () => {
   const toDoList = new ToDoCollection()
   beforeEach(() => {
     toDoList.reset([
